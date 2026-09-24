@@ -1,6 +1,14 @@
+# Đây là "hợp đồng" schema/invariant chung mà mọi task (5-10) phải tuân theo,
+# để các module ghép được với nhau (VD: RRF ở Task 7 cần SearchResult của cả
+# Task 5 và Task 6 có đúng CÙNG shape). Không tự đổi field/kiểu dữ liệu ở đây
+# — nếu cần đổi, phải sửa đồng bộ ở mọi nơi dùng các type/hàm validate này.
+
 from typing import Literal, TypedDict
 
 
+# RetrievalMethod: gắn trên MỖI SearchResult, cho biết nó ra từ nhánh nào.
+# RetrievalSource: gắn trên GenerationResult cuối cùng (Task 10) — "none" khi
+# an toàn từ chối trả lời (không dùng được nguồn nào).
 RetrievalMethod = Literal["dense", "bm25", "hybrid", "pageindex"]
 RetrievalSource = Literal["hybrid", "pageindex", "none"]
 
@@ -102,6 +110,11 @@ def validate_search_results(
 
     if len(ids) != len(set(ids)):
         raise ValueError("search result IDs must be unique")
+    # LUÔN phải sort giảm dần theo score — ngay cả sau khi qua reorder_for_llm
+    # (Task 10, chống lost-in-the-middle). Nếu 1 hàm nào đó trả về list đã bị
+    # xáo thứ tự (không sort theo score), phải sort/relabel LẠI trước khi trả
+    # ra public API, không trả thẳng list đã xáo — xem
+    # task10_generation._relabel_citations() cho ví dụ cách xử lý đúng.
     if scores != sorted(scores, reverse=True):
         raise ValueError("search results must be sorted by score descending")
 

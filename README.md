@@ -66,6 +66,7 @@ streamlit run app.py
 
 - [Module contracts](docs/MODULE_CONTRACTS.md): schema, interface và invariant mà code/test nên tuân theo.
 - [Step-by-step guide](docs/STEP_BY_STEP.md): thứ tự triển khai và tiêu chí hoàn thành từng bước.
+- [RAG pipeline notes](docs/RAG_PIPELINE_NOTES.md): tổng hợp kiến thức, bug thật đã gặp và hạn chế còn tồn đọng qua quá trình làm lab.
 - [Grading rubric](docs/GRADING_RUBRIC.md): Rubric thang điểm.
 - [Individual report](group_project/ịndividual/INDIVIDUAL_REPORT.md): template báo cáo cá nhân.
 - [Suggested topics](docs/SUGGESTED_TOPICS.md): danh sách chủ đề tham khảo, không bắt buộc.
